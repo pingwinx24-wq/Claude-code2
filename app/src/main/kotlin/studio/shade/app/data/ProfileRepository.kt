@@ -21,7 +21,12 @@ class ProfileRepository(context: Context) {
         get() = prefs.getString(KEY_QS_BACKUP, null)
         set(value) { prefs.edit().putString(KEY_QS_BACKUP, value).apply() }
 
+    var introDismissed: Boolean
+        get() = prefs.getBoolean(KEY_INTRO, false)
+        set(value) { prefs.edit().putBoolean(KEY_INTRO, value).apply() }
+
     private companion object {
+        const val KEY_INTRO = "intro_dismissed"
         const val KEY_STATE = "state"
         const val KEY_QS_BACKUP = "qs_backup"
     }

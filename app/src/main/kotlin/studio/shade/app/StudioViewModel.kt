@@ -38,6 +38,14 @@ class StudioViewModel(app: Application) : AndroidViewModel(app) {
     private val _activeTiles = MutableStateFlow(setOf<String>())
     val activeTiles: StateFlow<Set<String>> = _activeTiles.asStateFlow()
 
+    private val _showIntro = MutableStateFlow(!repo.introDismissed)
+    val showIntro: StateFlow<Boolean> = _showIntro.asStateFlow()
+
+    fun dismissIntro() {
+        repo.introDismissed = true
+        _showIntro.value = false
+    }
+
     init {
         viewModelScope.launch { _state.drop(1).debounce(250).collect { repo.save(it) } }
     }

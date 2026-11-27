@@ -34,17 +34,32 @@ import kotlin.math.roundToInt
 private val tabs = listOf("Tiles", "Layout", "Glass", "Colors")
 
 @Composable
-fun EditorScreen(vm: StudioViewModel, modifier: Modifier = Modifier) {
+fun EditorScreen(vm: StudioViewModel, onOpenSystem: () -> Unit, modifier: Modifier = Modifier) {
     val state by vm.state.collectAsState()
     val selectedId by vm.selectedTileId.collectAsState()
     val activeTiles by vm.activeTiles.collectAsState()
     val profile = state.active
+    val showIntro by vm.showIntro.collectAsState()
     var tab by rememberSaveable { mutableIntStateOf(0) }
 
     Column(
         modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 16.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp),
     ) {
+        if (showIntro) {
+            Section("How Shade Studio works") {
+                Text(
+                    "This screen is a designer and live preview. Android does not let apps replace the system shade or " +
+                        "Xiaomi's Control Center, so your design is not applied there automatically. What does reach the " +
+                        "system: the \"Shade profile\" Quick Settings tile and, with Shizuku, the tile order. See the System tab.",
+                    style = MaterialTheme.typography.bodySmall,
+                )
+                androidx.compose.foundation.layout.Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    PillButton("Open System tab", onOpenSystem)
+                    PillButton("Got it", { vm.dismissIntro() })
+                }
+            }
+        }
         QsPreview(
             profile = profile,
             activeTiles = activeTiles,

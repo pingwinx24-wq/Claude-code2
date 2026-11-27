@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -37,23 +38,26 @@ class MainActivity : ComponentActivity() {
         setContent {
             ShadeTheme {
                 var tab by rememberSaveable { mutableIntStateOf(0) }
-                Column(Modifier.fillMaxSize().background(ShadeColors.Bg).statusBarsPadding()) {
-                    Box(Modifier.weight(1f)) {
-                        when (tab) {
-                            0 -> EditorScreen(vm)
-                            1 -> ProfilesScreen(vm)
-                            else -> SystemScreen(vm)
+                // Surface provides LocalContentColor; without it un-coloured Text defaults to black.
+                Surface(color = ShadeColors.Bg, contentColor = ShadeColors.OnSurface) {
+                    Column(Modifier.fillMaxSize().background(ShadeColors.Bg).statusBarsPadding()) {
+                        Box(Modifier.weight(1f)) {
+                            when (tab) {
+                                0 -> EditorScreen(vm, onOpenSystem = { tab = 2 })
+                                1 -> ProfilesScreen(vm)
+                                else -> SystemScreen(vm)
+                            }
                         }
-                    }
-                    NavigationBar(containerColor = Color(0xFF0D1122), windowInsets = WindowInsets.navigationBars) {
-                        listOf("Editor", "Profiles", "System").forEachIndexed { i, label ->
-                            NavigationBarItem(
-                                selected = tab == i,
-                                onClick = { tab = i },
-                                icon = { Text(listOf("◧", "☰", "⚙")[i]) },
-                                label = { Text(label) },
-                                colors = NavigationBarItemDefaults.colors(indicatorColor = Color(0x338EA8FF)),
-                            )
+                        NavigationBar(containerColor = Color(0xFF0D1122), windowInsets = WindowInsets.navigationBars) {
+                            listOf("Editor", "Profiles", "System").forEachIndexed { i, label ->
+                                NavigationBarItem(
+                                    selected = tab == i,
+                                    onClick = { tab = i },
+                                    icon = { Text(listOf("◧", "☰", "⚙")[i]) },
+                                    label = { Text(label) },
+                                    colors = NavigationBarItemDefaults.colors(indicatorColor = Color(0x338EA8FF)),
+                                )
+                            }
                         }
                     }
                 }
