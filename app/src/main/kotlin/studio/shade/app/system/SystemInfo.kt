@@ -61,7 +61,7 @@ object SystemInfo {
                 when (code) {
                     StatusBarManager.TILE_ADD_REQUEST_RESULT_TILE_ADDED -> "Tile added"
                     StatusBarManager.TILE_ADD_REQUEST_RESULT_TILE_ALREADY_ADDED -> "Tile is already in Quick Settings"
-                    StatusBarManager.TILE_ADD_REQUEST_RESULT_DIALOG_DISMISSED -> "Request dismissed"
+                    StatusBarManager.TILE_ADD_REQUEST_RESULT_TILE_NOT_ADDED -> "You declined adding the tile"
                     else -> "System declined the request (code $code). Add the tile manually from the Quick Settings edit screen."
                 },
             )
