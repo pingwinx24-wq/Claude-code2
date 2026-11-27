@@ -61,6 +61,7 @@ fun SystemScreen(vm: StudioViewModel, modifier: Modifier = Modifier) {
         Section("This device") {
             val d = info
             if (d == null) Text("Reading…") else {
+                Info("Shade Studio version", appVersion(context))
                 Info("Device", d.model)
                 Info("Android", "${d.androidVersion} (API ${d.sdk})")
                 Info("Vendor skin", d.skin)
@@ -158,4 +159,11 @@ private fun statusText(s: ShizukuStatus) = when (s) {
     ShizukuStatus.NEEDS_PERMISSION -> "Running — permission needed"
     ShizukuStatus.PERMISSION_DENIED -> "Running — permission denied"
     ShizukuStatus.READY -> "Ready"
+}
+
+private fun appVersion(context: android.content.Context): String = try {
+    @Suppress("DEPRECATION")
+    context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "unknown"
+} catch (_: Exception) {
+    "unknown"
 }
