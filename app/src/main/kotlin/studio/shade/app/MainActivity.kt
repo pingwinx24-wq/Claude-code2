@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import studio.shade.app.ui.editor.EditorScreen
 import studio.shade.app.ui.profiles.ProfilesScreen
 import studio.shade.app.ui.system.SystemScreen
+import studio.shade.app.ui.walls.WallpapersScreen
 import studio.shade.app.ui.theme.ShadeColors
 import studio.shade.app.ui.theme.ShadeTheme
 
@@ -43,17 +44,18 @@ class MainActivity : ComponentActivity() {
                     Column(Modifier.fillMaxSize().background(ShadeColors.Bg).statusBarsPadding()) {
                         Box(Modifier.weight(1f)) {
                             when (tab) {
-                                0 -> EditorScreen(vm, onOpenSystem = { tab = 2 })
-                                1 -> ProfilesScreen(vm)
+                                0 -> EditorScreen(vm, onOpenSystem = { tab = 3 })
+                                1 -> WallpapersScreen(vm)
+                                2 -> ProfilesScreen(vm)
                                 else -> SystemScreen(vm)
                             }
                         }
                         NavigationBar(containerColor = Color(0xFF0D1122), windowInsets = WindowInsets.navigationBars) {
-                            listOf("Editor", "Profiles", "System").forEachIndexed { i, label ->
+                            listOf("Editor", "Walls", "Profiles", "System").forEachIndexed { i, label ->
                                 NavigationBarItem(
                                     selected = tab == i,
                                     onClick = { tab = i },
-                                    icon = { Text(listOf("◧", "☰", "⚙")[i]) },
+                                    icon = { Text(listOf("◧", "▦", "☰", "⚙")[i]) },
                                     label = { Text(label) },
                                     colors = NavigationBarItemDefaults.colors(indicatorColor = Color(0x338EA8FF)),
                                 )
